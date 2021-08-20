@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=appname
+Comment=Switch costumes. Solve puzzles. Wake up.
+Exec=godot --main-pack packfile.pck
+Icon=icon.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+X-Ubuntu-Supported-Orientations=landscape
