@@ -4,7 +4,7 @@ BUILD_DIR=$PWD
 CACHE_DIR=$PWD/../.godot-ubports
 
 # The latest build can always be obtained from this URL
-URL_LATEST=https://gitlab.com/abmyii/ubports-godot/-/jobs/artifacts/ut-port-stable/download?job=xenial_${ARCH}_binary
+URL_LATEST=https://gitlab.com/marquiskurt/ubports-godot/-/jobs/artifacts/ut-port-stable/download?job=xenial_${ARCH}_binary
 
 # Determine the ID of the latest successful pipeline
 function getNewestVersion() {
@@ -70,11 +70,15 @@ else
 	fi
 fi
 
+# Install OpenJDK 11.
+add-apt-repository ppa:openjdk-r/ppa
+apt-get update
+apt install -y openjdk-11-jdk:$ARCH
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-${ARCH}"
+
 # Copy Godot executable to build directory
 cd "$BUILD_DIR"
 cp "$CACHE_DIR"/godot.ubports.${ARCH} godot
 
-# Install OpenJDK 11 and link an embedded JRE in the project based on the current arch.
-sudo apt install -y openjdk-11-jdk:$ARCH
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-${ARCH}"
-jlink --add-modules java.base,java.logging --output jre
+# Create an embedded JRE in the project based on the current arch.
+jlink --add-modules java.base,java.logging --output ../jre
